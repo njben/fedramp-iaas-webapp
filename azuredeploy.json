@@ -28,16 +28,6 @@
             },
             "defaultValue": ""
         },
-        "useExistingKek": {
-            "type": "string",
-            "defaultValue": "kek",
-            "allowedValues": [
-                "kek"
-            ],
-            "metadata": {
-                "description": "Select kek if the secret should be encrypted with a key encryption key and pass explicit keyEncryptionKeyURL. For nokek, you can keep keyEncryptionKeyURL empty."
-            }
-        },
         "encryptionEnabled": {
             "type": "bool",
             "defaultValue": true
@@ -160,45 +150,6 @@
                 "description": "The size of the MGT VM Created"
             },
             "defaultValue": "Standard_D1_v2"
-        },
-        "dcStorageAccountType": {
-            "type": "string",
-            "allowedValues": [
-                "Standard_LRS",
-                "Standard_GRS",
-                "Standard_RAGRS",
-                "Premium_LRS"
-            ],
-            "metadata": {
-                "description": "The type of the DC Storage Account created"
-            },
-            "defaultValue": "Standard_GRS"
-        },
-        "webStorageAccountType": {
-            "type": "string",
-            "allowedValues": [
-                "Standard_LRS",
-                "Standard_GRS",
-                "Standard_RAGRS",
-                "Premium_LRS"
-            ],
-            "metadata": {
-                "description": "The type of the Web Storage Account created"
-            },
-            "defaultValue": "Standard_GRS"
-        },
-        "mgtStorageAccountType": {
-            "type": "string",
-            "allowedValues": [
-                "Standard_LRS",
-                "Standard_GRS",
-                "Standard_RAGRS",
-                "Premium_LRS"
-            ],
-            "metadata": {
-                "description": "The type of the MGT Storage Account created"
-            },
-            "defaultValue": "Standard_GRS"
         },
         "templatesBaseUrl": {
             "type": "string",
@@ -426,7 +377,7 @@
             "encryptionOperation": "EnableEncryption",
             "keyEncryptionAlgorithm": "RSA-OAEP",
             "keyVaultURL": "[concat('https://', parameters('keyVaultName'), '.vault.usgovcloudapi.net/')]",
-            "provisioningVMAzureDiskEncryptionUrl": "[concat(parameters('templatesBaseUrl'),'/configuringVMAzureDiskEncryption-', parameters('useExistingKek'),'.json')]",
+            "provisioningVMAzureDiskEncryptionUrl": "[concat(parameters('templatesBaseUrl'),'/configuringVMAzureDiskEncryption-kek','.json')]",
             "keyVaultId": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('keyVaultResourceGroupName'), '/providers/Microsoft.KeyVault/vaults/', parameters('keyVaultName'))]",
             "keyVaultResourceID": "[concat(subscription().id,'/resourceGroups/',parameters('keyVaultResourceGroupName'),'/providers/Microsoft.KeyVault/vaults/', parameters('keyVaultName'))]"
         },
@@ -610,13 +561,13 @@
                         "value": "[variables('resourceNames').storageAccounts.web]"
                     },
                     "webStorageAccountType": {
-                        "value": "[parameters('webStorageAccountType')]"
+                        "value": "Standard_GRS"
                     },
                     "dcStorageAccountName": {
                         "value": "[variables('resourceNames').storageAccounts.dc]"
                     },
                     "dcStorageAccountType": {
-                        "value": "[parameters('dcStorageAccountType')]"
+                        "value": "Standard_GRS"
                     },
                     "omsWorkspaceName": {
                         "value": "[variables('resourceNames').omsWorkspace]"
@@ -625,7 +576,7 @@
                         "value": "[variables('resourceNames').storageAccounts.mgt]"
                     },
                     "mgtStorageAccountType": {
-                        "value": "[parameters('mgtStorageAccountType')]"
+                        "value": "Standard_GRS"
                     }
                 }
             }
