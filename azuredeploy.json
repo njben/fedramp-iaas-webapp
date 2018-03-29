@@ -151,36 +151,14 @@
             },
             "defaultValue": "Standard_D1_v2"
         },
-        "dcStorageAccountType": {
+        "StorageAccountType": {
             "type": "string",
             "allowedValues": [
                 "Standard_GRS",
                 "Standard_RAGRS"
             ],
             "metadata": {
-                "description": "The type of the DC Storage Account created"
-            },
-            "defaultValue": "Standard_GRS"
-        },
-        "webStorageAccountType": {
-            "type": "string",
-            "allowedValues": [
-                "Standard_GRS",
-                "Standard_RAGRS"
-            ],
-            "metadata": {
-                "description": "The type of the DC Storage Account created"
-            },
-            "defaultValue": "Standard_GRS"
-        },
-        "mgtStorageAccountType": {
-            "type": "string",
-            "allowedValues": [
-                "Standard_GRS",
-                "Standard_RAGRS"
-            ],
-            "metadata": {
-                "description": "The type of the DC Storage Account created"
+                "description": "The type of the Storage Account created"
             },
             "defaultValue": "Standard_GRS"
         },
@@ -593,23 +571,17 @@
                     "webStorageAccountName": {
                         "value": "[variables('resourceNames').storageAccounts.web]"
                     },
-                    "webStorageAccountType": {
-                        "value": "[parameters('webStorageAccountType')]"
+                    "StorageAccountType": {
+                        "value": "[parameters('StorageAccountType')]"
                     },
                     "dcStorageAccountName": {
                         "value": "[variables('resourceNames').storageAccounts.dc]"
-                    },
-                    "dcStorageAccountType": {
-                        "value": "[parameters('dcStorageAccountType')]"
                     },
                     "omsWorkspaceName": {
                         "value": "[variables('resourceNames').omsWorkspace]"
                     },
                     "mgtStorageAccountName": {
                         "value": "[variables('resourceNames').storageAccounts.mgt]"
-                    },
-                    "mgtStorageAccountType": {
-                        "value": "[parameters('mgtStorageAccountType')]"
                     }
                 }
             }
@@ -1242,8 +1214,8 @@
                     "WebStorageAccountName": {
                         "value": "[variables('resourceNames').storageAccounts.web]"
                     },
-                    "webStorageAccountType": {
-                        "value": "[parameters('webStorageAccountType')]"
+                    "StorageAccountType": {
+                        "value": "[parameters('StorageAccountType')]"
                     },
                     "location": {
                         "value": "[variables('vmSettings').location]"
