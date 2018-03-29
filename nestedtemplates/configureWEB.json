@@ -17,9 +17,6 @@
         "WebStorageAccountName": {
             "type": "string"
         },
-        "webStorageAccountType": {
-            "type": "string"
-        },
         "location": {
             "type": "string"
         },
