@@ -151,6 +151,39 @@
             },
             "defaultValue": "Standard_D1_v2"
         },
+        "dcStorageAccountType": {
+            "type": "string",
+            "allowedValues": [
+                "Standard_GRS",
+                "Standard_RAGRS"
+            ],
+            "metadata": {
+                "description": "The type of the DC Storage Account created"
+            },
+            "defaultValue": "Standard_GRS"
+        },
+        "webStorageAccountType": {
+            "type": "string",
+            "allowedValues": [
+                "Standard_GRS",
+                "Standard_RAGRS"
+            ],
+            "metadata": {
+                "description": "The type of the DC Storage Account created"
+            },
+            "defaultValue": "Standard_GRS"
+        },
+        "mgtStorageAccountType": {
+            "type": "string",
+            "allowedValues": [
+                "Standard_GRS",
+                "Standard_RAGRS"
+            ],
+            "metadata": {
+                "description": "The type of the DC Storage Account created"
+            },
+            "defaultValue": "Standard_GRS"
+        },
         "templatesBaseUrl": {
             "type": "string",
             "metadata": {
@@ -561,13 +594,13 @@
                         "value": "[variables('resourceNames').storageAccounts.web]"
                     },
                     "webStorageAccountType": {
-                        "value": "Standard_GRS"
+                        "value": "[parameters('webStorageAccountType')]"
                     },
                     "dcStorageAccountName": {
                         "value": "[variables('resourceNames').storageAccounts.dc]"
                     },
                     "dcStorageAccountType": {
-                        "value": "Standard_GRS"
+                        "value": "[parameters('dcStorageAccountType')]"
                     },
                     "omsWorkspaceName": {
                         "value": "[variables('resourceNames').omsWorkspace]"
@@ -576,7 +609,7 @@
                         "value": "[variables('resourceNames').storageAccounts.mgt]"
                     },
                     "mgtStorageAccountType": {
-                        "value": "Standard_GRS"
+                        "value": "[parameters('mgtStorageAccountType')]"
                     }
                 }
             }
@@ -1210,7 +1243,7 @@
                         "value": "[variables('resourceNames').storageAccounts.web]"
                     },
                     "webStorageAccountType": {
-                        "value": "Standard_GRS"
+                        "value": "[parameters('webStorageAccountType')]"
                     },
                     "location": {
                         "value": "[variables('vmSettings').location]"
