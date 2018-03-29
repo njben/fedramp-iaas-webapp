@@ -1210,7 +1210,7 @@
                         "value": "[variables('resourceNames').storageAccounts.web]"
                     },
                     "webStorageAccountType": {
-                        "value": "[parameters('webStorageAccountType')]"
+                        "value": "Standard_GRS"
                     },
                     "location": {
                         "value": "[variables('vmSettings').location]"
