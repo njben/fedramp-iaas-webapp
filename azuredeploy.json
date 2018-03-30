@@ -183,6 +183,16 @@
             },
             "defaultValue": "https://raw.githubusercontent.com/mik-e-kim/fedramp-iaas-webapp/SQL2017/custom-scripts"
         },
+        "sqlServerVersion": {
+            "type": "string",
+            "allowedValues": [
+                "SQL2017-WS2016"
+            ],
+            "metadata": {
+                "description": "The Sql Server Version"
+            },
+            "defaultValue": "SQL2017-WS2016"
+        },
         "gatewaySkuName": {
             "type": "string",
             "defaultValue": "WAF_Medium",
@@ -248,12 +258,14 @@
             "keyVaultUrl": "[concat('https://', parameters('keyVaultName') ,'.vault.usgovcloudapi.net/')]",
             "keyVaultId": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', parameters('keyVaultResourceGroupName'), '/providers/Microsoft.KeyVault/vaults/', parameters('keyVaultName'))]",
             "dcSubnet": "[concat(variables('VnetID'),'/subnets/', variables('subnets').dc.name)]",
+            "sqlSubnet": "[concat(variables('VnetID'),'/subnets/', variables('subnets').sql.name)]",
             "webSubnet": "[concat(variables('VnetID'),'/subnets/', variables('subnets').web.name)]",
             "mgtSubnet": "[concat(variables('VnetID'),'/subnets/', variables('subnets').mgt.name)]",
             "dcNSG": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('resourceNames').nsgs.dc)]",
             "webNSG": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('resourceNames').nsgs.web)]",
             "lbNSG": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('resourceNames').nsgs.lb)]",
             "mgtNSG": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('resourceNames').nsgs.mgt)]",
+            "sqlNSG": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('resourceNames').nsgs.sql)]",
             "adIPConfigID": "[concat(resourceId('Microsoft.Network/networkInterfaces',variables('resourceNames').nics.adpdc),'/ipConfigurations/ipconfig1')]",
             "rdplbFEConfigID": "[concat(resourceId('Microsoft.Network/loadBalancers',variables('lbSettings').rdpLBName),'/frontendIPConfigurations/',variables('lbSettings').rdpLBFEName)]",
             "adRDPNATRuleID": "[concat(resourceId('Microsoft.Network/loadBalancers',variables('lbSettings').rdpLBName),'/inboundNatRules/',variables('RDPNAT'))]",
@@ -265,6 +277,12 @@
               "properties": {
                   "addressPrefix": "10.200.0.0/24"
               }
+          },
+          "sql": {
+            "name": "sql",
+            "properties": {
+                "addressPrefix": "10.200.1.0/24"
+            }
           },
           "web": {
               "name": "web",
@@ -287,6 +305,7 @@
         },
         "subnetArray": [
             "[variables('subnets').dc]",
+            "[variables('subnets').sql]",
             "[variables('subnets').web]",
             "[variables('subnets').mgt]",
             "[variables('subnets').appGateway]"
@@ -304,6 +323,7 @@
                 "mgt": "[concat('MGTNSG', parameters('environmentPrefix'))]",
                 "dc": "[concat('DCNSG', parameters('environmentPrefix'))]",
                 "web": "[concat('WEBNSG', parameters('environmentPrefix'))]",
+                "sql": "[concat('SQLNSG', parameters('environmentPrefix'))]",
                 "lb": "[concat('LBNSG', parameters('environmentPrefix'))]"
             },
             "storageAccounts": {
@@ -535,6 +555,9 @@
                     },
                     "dcNSGName": {
                         "value": "[variables('resourceNames').nsgs.dc]"
+                    },
+                    "sqlNSGName": {
+                        "value": "[variables('resourceNames').nsgs.sql]"
                     },
                     "webNSGName": {
                         "value": "[variables('resourceNames').nsgs.web]"
