@@ -6,38 +6,28 @@
             "type": "string"
         },
         "adminUsername": {
-            "type": "string"
+            "type": "securestring"
         },
         "adminPassword": {
             "type": "securestring"
         },
         "vmSize": {
-            "type": "string",
-            "defaultValue": "Standard_D2"
+            "type": "string"
         },
         "subnetId": {
-            "type": "string",
-            "defaultValue": "null"
+            "type": "string"
         },
         "imagePublisher": {
-            "type": "string",
-            "defaultValue": "MicrosoftWindowsServer"
+            "type": "string"
         },
         "imageOffer": {
-            "type": "string",
-            "defaultValue": "WindowsServer"
+            "type": "string"
         },
         "imageSku": {
-            "type": "string",
-            "defaultValue": "2016-Datacenter"
+            "type": "string"
         },
         "diagStorageAccountId": {
-            "type": "string",
-            "defaultValue": "null"
-        },
-        "assignPublicIP": {
-            "type": "bool",
-            "defaultValue": false
+            "type": "string"
         },
         "fixedPrivateIp": {
             "type": "string",
@@ -67,7 +57,6 @@
         }
     },
     "variables": {
-        "publicipTemplateUrl": "[uri(deployment().properties.templateLink.uri, 'publicip.json')]",
         "nicName": "[concat(parameters('vmName'),'-nic')]",
         "genDiagStorageAccountName": "[concat('vmdiag', uniqueString( resourceGroup().id, deployment().name ))]",
         "genStorageAccountId": "[resourceId('Microsoft.Storage/storageAccounts/', variables('genDiagStorageAccountName'))]",
@@ -165,30 +154,6 @@
                         }
                     }
                 ]
-            }
-        },
-        {
-            "apiVersion": "2017-05-10",
-            "name": "[concat(parameters('vmName'),'-publicip')]",
-            "type": "Microsoft.Resources/deployments",
-            "condition": "[parameters('assignPublicIP')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Compute/virtualMachines',parameters('vmName'))]"
-            ],
-            "properties": {
-                "mode": "Incremental",
-                "templateLink": {
-                    "uri": "[variables('publicipTemplateUrl')]",
-                    "contentVersion": "1.0.0.0"
-                },
-                "parameters": {
-                    "nicName": {
-                        "value": "[variables('nicName')]"
-                    },
-                    "subnetId": {
-                        "value": "[variables('subnetId')]"
-                    }
-                }
             }
         },
         {

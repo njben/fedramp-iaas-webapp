@@ -2,30 +2,26 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "subnetId": {
+    "sqlsubnetId": {
       "type": "string"
     },
-    "nodeIpAddresses": {
-      "type": "array",
-      "defaultValue": [
-        "10.0.1.10",
-        "10.0.1.11"
-      ]
+    "sqlnodeIpAddresses": {
+      "type": "array"
     },
-    "clusterIpAddress": {
-      "type": "string",
-      "defaultValue": "10.0.1.30"
+    "sqlclusterIpAddress": {
+      "type": "string"
     },
     "adminUsername": {
-      "type": "string",
-      "defaultValue": "EnterpriseAdmin"
+      "type": "securestring"
     },
     "adminPassword": {
       "type": "securestring"
     },
     "domainName": {
-      "type": "string",
-      "defaultValue": "devnet.contoso.us"
+      "type": "string"
+    },
+    "StorageAccountType": {
+      "type": "string"
     },
     "sqlVmSize": {
       "type": "string",
@@ -50,16 +46,14 @@
         "Standard_DS13_v2",
         "Standard_DS14_v2",
         "Standard_DS15_v2"
-      ],
-      "defaultValue": "Standard_DS2_v2"
+      ]
     },
     "sqlVmImagePublisher": {
       "type": "string",
       "defaultValue": "MicrosoftSqlServer"
     },
-    "sqlVmImageOffer": {
-      "type": "string",
-      "defaultValue": "SQL2017-WS2016"
+    "sqlServerVersion": {
+      "type": "string"
     },
     "sqlVmImageSku": {
       "type": "string",
@@ -74,7 +68,7 @@
     "baseUri": "[deployment().properties.templateLink.uri]",
     "SQLPrepareModuleURL": "[uri(variables('baseUri'), 'DSC/PrepareSQLServer.ps1.zip')]",
     "SQLPrepareFunction": "PrepareSQLServer.ps1\\SQLServerPrepareDsc",
-    "windowsVmTemplateURL": "[uri(variables('baseUri'),'../primitives/windowsvm.json')]",
+    "SQLVmTemplateURL": "[uri(variables('baseUri'),'SQLVM.json')]",
     "LBName": "SQLLB",
     "LBBEName": "[concat(variables('LBName'),'BE')]",
     "LBFEName": "[concat(variables('LBName'),'FE')]",
@@ -130,10 +124,10 @@
           {
             "name": "[variables('LBFEName')]",
             "properties": {
-              "privateIPAddress": "[parameters('clusterIpAddress')]",
+              "privateIPAddress": "[parameters('sqlclusterIpAddress')]",
               "privateIPAllocationMethod": "Static",
               "subnet": {
-                "id": "[parameters('subnetId')]"
+                "id": "[parameters('sqlsubnetId')]"
               }
             }
           }
@@ -193,7 +187,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[variables('windowsVmTemplateURL')]",
+          "uri": "[variables('SQLVMTemplateURL')]",
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
@@ -204,10 +198,10 @@
             "value": "[parameters('sqlVmSize')]"
           },
           "subnetId": {
-            "value": "[parameters('subnetId')]"
+            "value": "[parameters('sqlsubnetId')]"
           },
           "fixedPrivateIp": {
-            "value": "[parameters('nodeIpAddresses')[copyIndex()]]"
+            "value": "[parameters('sqlnodeIpAddresses')[copyIndex()]]"
           },
           "adminUsername": {
             "value": "[parameters('adminUsername')]"
@@ -350,7 +344,7 @@
             },
             "ClusterName": "SQLClusterAG",
             "ClusterOwnerNode": "[concat(variables('SqlVmPrefix'), '0')]",
-            "ClusterIP": "[parameters('clusterIpAddress')]",
+            "ClusterIP": "[parameters('sqlclusterIpAddress')]",
             "witnessStorageBlobEndpoint": "[reference(variables('cloudWitnessStorageAccountName'), '2016-01-01').primaryEndpoints.blob]",
             "witnessStorageAccountKey": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('cloudWitnessStorageAccountName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value]"
           }
