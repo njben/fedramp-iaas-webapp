@@ -151,6 +151,42 @@
             },
             "defaultValue": "Standard_D1_v2"
         },
+        "sqlVmSize": {
+            "type": "string",
+            "allowedValues": [
+              "Standard_D1_v2",
+              "Standard_D2_v2",
+              "Standard_D3_v2",
+              "Standard_D4_v2",
+              "Standard_D5_v2",
+              "Standard_D11_v2",
+              "Standard_D12_v2",
+              "Standard_D13_v2",
+              "Standard_D14_v2",
+              "Standard_D15_v2",
+              "Standard_DS1_v2",
+              "Standard_DS2_v2",
+              "Standard_DS3_v2",
+              "Standard_DS4_v2",
+              "Standard_DS5_v2",
+              "Standard_DS11_v2",
+              "Standard_DS12_v2",
+              "Standard_DS13_v2",
+              "Standard_DS14_v2",
+              "Standard_DS15_v2"
+            ],
+            "defaultValue": "Standard_D2_v2"
+        },
+        "sqlServerVersion": {
+            "type": "string",
+            "allowedValues": [
+                "SQL2017-WS2016"
+            ],
+            "metadata": {
+                "description": "The Sql Server Version"
+            },
+            "defaultValue": "SQL2017-WS2016"
+        },
         "StorageAccountType": {
             "type": "string",
             "allowedValues": [
@@ -182,16 +218,6 @@
                 "description": "DSC Scripts base url"
             },
             "defaultValue": "https://raw.githubusercontent.com/mik-e-kim/fedramp-iaas-webapp/SQL2017/custom-scripts"
-        },
-        "sqlServerVersion": {
-            "type": "string",
-            "allowedValues": [
-                "SQL2017-WS2016"
-            ],
-            "metadata": {
-                "description": "The Sql Server Version"
-            },
-            "defaultValue": "SQL2017-WS2016"
         },
         "gatewaySkuName": {
             "type": "string",
@@ -1697,7 +1723,74 @@
                     }
                 }
             }
+        },
+        {
+            "apiVersion": "2017-05-10",
+            "name": "ConfigureSQL",
+            "type": "Microsoft.Resources/deployments",
+            "dependsOn": [
+		        "ConfigurationVMEncryption-AZ-MGT-VM"
+            ],
+            "properties": {
+              "mode": "incremental",
+              "templateLink": {
+                 "uri":"https://raw.githubusercontent.com/mik-e-kim/fedramp-iaas-webapp/SQL2017/externaltemplates/ConfigureSQL.json",
+                 "contentVersion":"1.0.0.0"
+              },
+              "parameters": {
+                    "domainName": {
+                        "reference": {
+                            "keyVault": {
+                                "id": "[variables('derivedIds').keyVaultId]"
+                            },
+                            "secretName": "domain"
+                        } 
+                    },
+                    "sqlVmSize": {
+                        "value": "[parameters('sqlVmSize')]"
+                    },
+                    "sqlnodeIpAddresses": {
+                        "Value": [
+                          "10.200.1.6",
+                          "10.200.1.7"
+                        ]
+                    },
+                    "sqlclusterIpAddress": {
+                        "Value": "10.200.1.8"
+                    },
+                    "adminUsername": {
+                        "reference": {
+                          "keyVault": {
+                            "id": "[variables('derivedIds').keyVaultId]"
+                          },
+                          "secretName": "adminUsername"
+                        }
+                    },
+                    "adminPassword": {
+                        "reference": {
+                            "keyVault": {
+                                "id": "[variables('derivedIds').keyVaultId]"
+                            },
+                            "secretName": "adminPassword"
+                        }
+                    },
+                    "StorageAccountType": {
+                        "value": "[parameters('StorageAccountType')]"
+                    },
+                    "sqlVmImagePublisher": {
+                        "Value": "MicrosoftSqlServer"
+                    },
+                    "sqlServerVersion": {
+                        "value": "[parameters('sqlServerVersion')]"
+                    },
+                    "sqlVmImageSku": {
+                        "Value": "Enterprise"
+                    },
+                    "sqlsubnetId": {
+                        "Value": "[variables('derivedIds').sqlSubnet]"
+                    }
+               }
+            }
         }
-
     ]
 }

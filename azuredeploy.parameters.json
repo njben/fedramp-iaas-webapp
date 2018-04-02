@@ -29,6 +29,12 @@
         "mgtVMSize": {
             "value": "Standard_D1_v2"
         },
+        "sqlVMSize": {
+            "value": "Standard_D2_v2"
+        },
+        "sqlServerVersion": {
+            "value": "SQL2017-WS2016"
+        },
         "StorageAccountType": {
             "value": "Standard_GRS"
         },
