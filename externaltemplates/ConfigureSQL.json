@@ -219,7 +219,7 @@
             "value": "[parameters('sqlVmImagePublisher')]"
           },
           "imageOffer": {
-            "value": "[parameters('sqlVmImageOffer')]"
+            "value": "[parameters('sqlServerVersion')]"
           },
           "imageSku": {
             "value": "[parameters('sqlVmImageSku')]"
