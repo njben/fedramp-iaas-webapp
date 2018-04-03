@@ -1729,7 +1729,7 @@
             "name": "ConfigureSQL",
             "type": "Microsoft.Resources/deployments",
             "dependsOn": [
-		        "ConfigurationVMEncryption-AZ-MGT-VM"
+		        "ConfigureMGT"
             ],
             "properties": {
               "mode": "incremental",
