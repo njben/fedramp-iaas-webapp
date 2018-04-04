@@ -10,11 +10,6 @@ configuration SQLServerPrepareDsc
         [Parameter(Mandatory)]
         [System.Management.Automation.PSCredential]$Admincreds,
 
-        [Parameter(Mandatory)]
-        [System.Management.Automation.PSCredential]$SQLServicecreds,
-
-        [System.Management.Automation.PSCredential]$SQLAuthCreds,
-
         [Parameter(Mandatory=$true)]
         [String]$ClusterName,
 
@@ -36,8 +31,6 @@ configuration SQLServerPrepareDsc
 
     Import-DscResource -ModuleName xComputerManagement, xNetworking, xActiveDirectory, xStorage, xFailoverCluster, SqlServer, SqlServerDsc
     [System.Management.Automation.PSCredential]$DomainCreds = New-Object System.Management.Automation.PSCredential ("${DomainNetbiosName}\$($Admincreds.UserName)", $Admincreds.Password)
-    [System.Management.Automation.PSCredential]$DomainFQDNCreds = New-Object System.Management.Automation.PSCredential ("${DomainName}\$($Admincreds.UserName)", $Admincreds.Password)
-    [System.Management.Automation.PSCredential]$SQLCreds = New-Object System.Management.Automation.PSCredential ("${DomainNetbiosName}\$($SQLServicecreds.UserName)", $SQLServicecreds.Password)
 
     $ipcomponents = $ClusterIP.Split('.')
     $ipcomponents[3] = [convert]::ToString(([convert]::ToInt32($ipcomponents[3])) + 1)
@@ -128,14 +121,12 @@ configuration SQLServerPrepareDsc
             Ensure = "Present"
         }
 
-        xADUser CreateSqlServerServiceAccount
+        <#TODO: Add user for running SQL server.
+        xADUser SvcUser
         {
-            DomainAdministratorCredential = $DomainCreds
-            DomainName = $DomainName
-            UserName = $SQLServicecreds.UserName
-            Password = $SQLServicecreds
-            Ensure = "Present"
+
         }
+        #>
 
         SqlServerLogin AddDomainAdminAccountToSqlServer
         {
