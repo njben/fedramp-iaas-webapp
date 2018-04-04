@@ -421,7 +421,7 @@ try {
 	Write-Host "You will now be asked to create credentials for the administrator and sql service accounts. `n" -ForegroundColor Yellow
 	Write-Host "`n CREATE CREDENTIALS `n" -foregroundcolor green
     $adminUsername = checkAdminUserName
-	$passwordNames = @("adminPassword","sqlServerServiceAccountPassword")
+	$passwordNames = @("adminPassword")
 	$passwords = New-Object -TypeName PSObject
 	for ($i=0;$i -lt $passwordNames.Length;$i++) {
 	   checkPasswords -name $passwordNames[$i]
