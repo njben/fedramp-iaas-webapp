@@ -361,7 +361,9 @@
                 "adpdc": "[concat('AZ-PDC-VM', parameters('environmentPrefix'))]",
                 "adbdc": "[concat('AZ-BDC-VM', parameters('environmentPrefix'))]",
                 "web": "[concat('AZ-WEB-VM', parameters('environmentPrefix'))]",
-                "mgt": "[concat('AZ-MGT-VM', parameters('environmentPrefix'))]"
+                "mgt": "[concat('AZ-MGT-VM', parameters('environmentPrefix'))]",
+                "sql0" : "[concat('SQL0', parameters('environmentPrefix'))]",
+                "sql1" : "[concat('SQL1', parameters('environmentPrefix'))]"
             },
             "nics": {
                 "adpdc": "[concat('adPDC-nic', parameters('environmentPrefix'))]",
@@ -463,6 +465,12 @@
             "VMs": [
                 {
                     "Name": "[variables('resourceNames').vms.mgt]"
+                },
+                {
+                    "Name": "[variables('resourceNames').vms.sql0]"
+                },
+                {
+                    "Name": "[variables('resourceNames').vms.sql1]"
                 }
             ]
         },
@@ -1369,7 +1377,8 @@
             "apiVersion": "2015-01-01",
             "dependsOn": [
                 "monitorVMLoopAD",
-                "ConfigureMGT"
+                "ConfigureMGT",
+                "ConfigureSQL"
             ],
             "copy": {
                 "name": "monitorVMLoopSQLAD",
@@ -1660,7 +1669,8 @@
             "dependsOn": [
                 "ConfigureAutomationSchedules",
 		        "ConfigurationVMEncryption-AZ-PDC-VM",
-		        "ConfigurationVMEncryption-AZ-BDC-VM"
+                "ConfigurationVMEncryption-AZ-BDC-VM",
+                "ConfigureSQL"
             ],
             "copy": {
                 "name": "encryptionSQLMGTLoop",
