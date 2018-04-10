@@ -64,7 +64,7 @@
     "diagStorageAccountName": "[concat(uniquestring(resourceGroup().id), 'sqlvmdiag')]",
     "cloudWitnessStorageAccountName": "[concat(uniquestring(resourceGroup().id), 'sqlw')]",
     "HASetName": "SqlHASet",
-    "SqlVmPrefix": "SQL",
+    "SqlVmPrefix": "AZ-SQL-VM",
     "baseUri": "[deployment().properties.templateLink.uri]",
     "SQLPrepareModuleURL": "[uri(variables('baseUri'), 'DSC/PrepareSQLServer.ps1.zip')]",
     "SQLPrepareFunction": "PrepareSQLServer.ps1\\SQLServerPrepareDsc",
