@@ -362,8 +362,8 @@
                 "adbdc": "[concat('AZ-BDC-VM', parameters('environmentPrefix'))]",
                 "web": "[concat('AZ-WEB-VM', parameters('environmentPrefix'))]",
                 "mgt": "[concat('AZ-MGT-VM', parameters('environmentPrefix'))]",
-                "sql0" : "[concat('SQL0', parameters('environmentPrefix'))]",
-                "sql1" : "[concat('SQL1', parameters('environmentPrefix'))]"
+                "sql0" : "[concat('AZ-SQL-VM0', parameters('environmentPrefix'))]",
+                "sql1" : "[concat('AZ-SQL-VM1', parameters('environmentPrefix'))]"
             },
             "nics": {
                 "adpdc": "[concat('adPDC-nic', parameters('environmentPrefix'))]",
@@ -1668,8 +1668,6 @@
             "apiVersion": "2015-01-01",
             "dependsOn": [
                 "ConfigureAutomationSchedules",
-		        "ConfigurationVMEncryption-AZ-PDC-VM",
-                "ConfigurationVMEncryption-AZ-BDC-VM",
                 "ConfigureSQL"
             ],
             "copy": {
