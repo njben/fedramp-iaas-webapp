@@ -1819,7 +1819,7 @@
                 },
                 "parameters": {
                     "backupInfo": {
-                        "value": "[parameters('backupInfo')]"
+                        "value": "[variables('backupInfo')]"
                     },
                     "vmName": {
                         "value": "[variables('resourceNames').vms.sql0]"
@@ -1846,7 +1846,7 @@
                 },
                 "parameters": {
                     "backupInfo": {
-                        "value": "[parameters('backupInfo')]"
+                        "value": "[variables('backupInfo')]"
                     },
                     "vmName": {
                         "value": "[variables('resourceNames').vms.sql1]"
