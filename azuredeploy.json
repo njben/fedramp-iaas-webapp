@@ -1799,6 +1799,60 @@
                     }
                }
             }
-        }
+        },
+        {
+            "name": "[concat('Backup-SQL0')]",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2015-01-01",
+            "copy": {
+                "name": "Backup-SQL0",
+                "count": 1
+            },
+            "dependsOn": [
+                "ConfigureSQL"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[parameters('backupInfo').backupTemplateUrl]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "backupInfo": {
+                        "value": "[parameters('backupInfo')]"
+                    },
+                    "vmName": {
+                        "value": "[variables('resourceNames').vms.sql0]"
+                    }
+                }
+            }
+        },
+        {
+            "name": "[concat('Backup-SQL1')]",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2015-01-01",
+            "copy": {
+                "name": "Backup-SQL0",
+                "count": 1
+            },
+            "dependsOn": [
+                "ConfigureSQL"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[parameters('backupInfo').backupTemplateUrl]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "backupInfo": {
+                        "value": "[parameters('backupInfo')]"
+                    },
+                    "vmName": {
+                        "value": "[variables('resourceNames').vms.sql1]"
+                    }
+                }
+            }
+        }        
     ]
 }
