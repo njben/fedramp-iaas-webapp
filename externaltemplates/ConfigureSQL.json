@@ -73,6 +73,10 @@
     "SQLVM1" : "AZ-SQL-VM1",
     "vaultName" : "AZ-RCV-01",
     "backupPolicyName": "DefaultPolicy",
+    "backupFabric": "Azure",
+    "v2VmType": "Microsoft.Compute/virtualMachines",
+    "v2VmContainer": "iaasvmcontainer;iaasvmcontainerv2;",
+    "v2Vm": "vm;iaasvmcontainerv2;",
     "LBName": "SQLLB",
     "LBBEName": "[concat(variables('LBName'),'BE')]",
     "LBFEName": "[concat(variables('LBName'),'FE')]",
@@ -363,23 +367,14 @@
     {
       "apiVersion": "2016-06-01",
       "type": "Microsoft.RecoveryServices/vaults/backupFabrics/protectionContainers/protectedItems",
-      "name": "Backup-AZ-SQL-VM0",
+      "name": "[concat(variables('SqlVmPrefix'), copyindex())]",
       "dependsOn": [
-        "AZ-SQL-VM0"
+        "sqldeploy1"
       ],
-      "properties": {
-        "protectedItemType": "Microsoft.ClassicCompute/virtualMachines",
-        "policyId": "[resourceId('Microsoft.RecoveryServices/vaults/backupPolicies', variables('vaultName'), variables('backupPolicyName'))]",
-        "sourceResourceId": "[resourceId('Microsoft.Compute/virtualMachines/', variables('SQLVM0'))]"        
-      }
-    },
-    {
-      "apiVersion": "2016-06-01",
-      "type": "Microsoft.RecoveryServices/vaults/backupFabrics/protectionContainers/protectedItems",
-      "name": "Backup-AZ-SQL-VM1",
-      "dependsOn": [
-        "AZ-SQL-VM1"
-      ],
+      "copy": {
+        "name": "sqlbackuploop",
+        "count": 2
+      },
       "properties": {
         "protectedItemType": "Microsoft.ClassicCompute/virtualMachines",
         "policyId": "[resourceId('Microsoft.RecoveryServices/vaults/backupPolicies', variables('vaultName'), variables('backupPolicyName'))]",
