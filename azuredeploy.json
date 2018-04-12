@@ -1167,8 +1167,6 @@
             "apiVersion": "2015-01-01",
             "comments": "Configures MGT VM with custom settings",
             "dependsOn": [
-                "Microsoft.Resources/deployments/ProvisionVirtualMachines",
-                "monitorVMLoopAD",
                 "ConfigureSQL"
             ],
             "properties": {
@@ -1737,7 +1735,9 @@
             "name": "ConfigureSQL",
             "type": "Microsoft.Resources/deployments",
             "dependsOn": [
-		        "ConfigureWEB"
+                "Microsoft.Resources/deployments/ProvisionVirtualMachines",
+                "ConfigureWEB",
+                "monitorVMLoopAD"
             ],
             "properties": {
               "mode": "incremental",
