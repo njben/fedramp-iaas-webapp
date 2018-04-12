@@ -69,14 +69,6 @@
     "SQLPrepareModuleURL": "[uri(variables('baseUri'), 'DSC/PrepareSQLServer.ps1.zip')]",
     "SQLPrepareFunction": "PrepareSQLServer.ps1\\SQLServerPrepareDsc",
     "SQLVmTemplateURL": "[uri(variables('baseUri'),'SQLVM.json')]",
-    "SQLVM0" : "AZ-SQL-VM0",
-    "SQLVM1" : "AZ-SQL-VM1",
-    "vaultName" : "AZ-RCV-01",
-    "backupPolicyName": "DefaultPolicy",
-    "backupFabric": "Azure",
-    "v2VmType": "Microsoft.Compute/virtualMachines",
-    "v2VmContainer": "iaasvmcontainer;iaasvmcontainerv2;",
-    "v2Vm": "vm;iaasvmcontainerv2;",
     "LBName": "SQLLB",
     "LBBEName": "[concat(variables('LBName'),'BE')]",
     "LBFEName": "[concat(variables('LBName'),'FE')]",
@@ -362,23 +354,6 @@
             "adminPassword": "[parameters('adminPassword')]"
           }
         }
-      }
-    },
-    {
-      "apiVersion": "2016-06-01",
-      "type": "Microsoft.RecoveryServices/vaults/backupFabrics/protectionContainers/protectedItems",
-      "name": "[concat(variables('SqlVmPrefix'), copyindex())]",
-      "dependsOn": [
-        "sqldeploy1"
-      ],
-      "copy": {
-        "name": "sqlbackuploop",
-        "count": 2
-      },
-      "properties": {
-        "protectedItemType": "Microsoft.ClassicCompute/virtualMachines",
-        "policyId": "[resourceId('Microsoft.RecoveryServices/vaults/backupPolicies', variables('vaultName'), variables('backupPolicyName'))]",
-        "sourceResourceId": "[resourceId('Microsoft.Compute/virtualMachines/', variables('SQLVM0'))]"        
       }
     }
   ],
