@@ -1598,11 +1598,8 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2015-01-01",
             "dependsOn": [
-                    "ConfigureAutomationSchedules",
-                    "ConfigurationVMEncryption-AZ-WEB-VM0",
-                    "ConfigurationVMEncryption-AZ-WEB-VM1",
-                    "ConfigurationVMEncryption-AZ-SQL-VM0",
-                    "ConfigurationVMEncryption-AZ-SQL-VM1"
+                "ConfigureAutomationSchedules",
+		        "[concat('ConfigurationVMEncryption-', variables('resourceNames').vms.web, copyindex())]"
             ],
             "copy": {
                 "name": "encryptionSQLMGTLoop",
@@ -1672,9 +1669,7 @@
             "apiVersion": "2015-01-01",
             "dependsOn": [
                 "ConfigureAutomationSchedules",
-                "ConfigureSQL",
-                "ConfigurationVMEncryption-AZ-WEB-VM0",
-                "ConfigurationVMEncryption-AZ-WEB-VM1"
+                "ConfigureSQL"
             ],
             "copy": {
                 "name": "encryptionSQLMGTLoop",
