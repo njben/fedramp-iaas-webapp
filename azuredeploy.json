@@ -1599,7 +1599,8 @@
             "apiVersion": "2015-01-01",
             "dependsOn": [
                     "ConfigureAutomationSchedules",
-                    "[concat('ConfigurationVMEncryption-', variables('resourceNames').vms.web, copyindex())]",
+                    "ConfigurationVMEncryption-AZ-WEB-VM0",
+                    "ConfigurationVMEncryption-AZ-WEB-VM1",
                     "ConfigurationVMEncryption-AZ-SQL-VM0",
                     "ConfigurationVMEncryption-AZ-SQL-VM1"
             ],
@@ -1672,7 +1673,8 @@
             "dependsOn": [
                 "ConfigureAutomationSchedules",
                 "ConfigureSQL",
-		        "[concat('ConfigurationVMEncryption-', variables('resourceNames').vms.web, copyindex())]"
+                "ConfigurationVMEncryption-AZ-WEB-VM0",
+                "ConfigurationVMEncryption-AZ-WEB-VM1"
             ],
             "copy": {
                 "name": "encryptionSQLMGTLoop",
