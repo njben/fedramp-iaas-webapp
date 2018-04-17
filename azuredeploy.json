@@ -491,6 +491,9 @@
             "comments": "Creates an Azure Automation Account and OMS Workspace",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2015-01-01",
+            "dependsOn": [
+              "Microsoft.Resources/deployments/ProvisionStorageAccounts"
+            ],
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
