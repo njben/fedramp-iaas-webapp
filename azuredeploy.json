@@ -492,7 +492,6 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2015-01-01",
             "dependsOn": [
-              "Microsoft.Resources/deployments/ProvisionStorageAccounts"
             ],
             "properties": {
                 "mode": "Incremental",
@@ -617,6 +616,7 @@
             "apiVersion": "2015-01-01",
             "comments": "Creates storage accounts for Active Directory, MGT, WEB, and Diagnostics.",
             "dependsOn": [
+		  "Microsoft.Resources/deployments/ProvisionAutomationAccountAndOMSWorkspace"
             ],
             "properties": {
                 "mode": "Incremental",
