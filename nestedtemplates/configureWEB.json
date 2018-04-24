@@ -181,7 +181,9 @@
                 "count": "[parameters('numberOfWebInstances')]"
             },
             "dependsOn": [
-                "vmLoopBaseline"
+                "vmLoopBaseline",
+                "ConfigurationVMEncryption-AZ-PDC-VM",
+                "ConfigurationVMEncryption-AZ-BDC-VM"
             ],
             "properties": {
                 "mode": "Incremental",

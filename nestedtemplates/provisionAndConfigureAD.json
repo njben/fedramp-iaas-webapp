@@ -527,7 +527,9 @@
                 "count": "[length(variables('vmNames').VMs)]"
             },
             "dependsOn": [
-                "UpdatingDNSwithBackupADVM"
+                "UpdatingDNSwithBackupADVM",
+                "ConfigurationVMEncryption-AZ-PDC-VM",
+                "ConfigurationVMEncryption-AZ-BDC-VM"
             ],
             "properties": {
                 "mode": "Incremental",
