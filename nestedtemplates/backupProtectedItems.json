@@ -20,10 +20,6 @@
     {
       "type": "Microsoft.RecoveryServices/vaults/backupFabrics/protectionContainers/protectedItems",
       "apiVersion": "2016-06-01",
-      "dependsOn": [
-        "ConfigurationVMEncryption-AZ-PDC-VM",
-        "ConfigurationVMEncryption-AZ-BDC-VM"
-      ],
       "tags": {
         "Project": "Blueprint"
       },

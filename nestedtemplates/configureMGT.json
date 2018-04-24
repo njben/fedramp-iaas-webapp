@@ -151,10 +151,7 @@
             "count": "[length(variables('vmNames').VMs)]"
         },
         "dependsOn": [
-              "[resourceId('Microsoft.Compute/virtualMachines/extensions', parameters('mgtVMName'), 'MGTBaselineDSC')]",
-              "ConfigurationVMEncryption-AZ-PDC-VM",
-              "ConfigurationVMEncryption-AZ-BDC-VM"
-
+              "[resourceId('Microsoft.Compute/virtualMachines/extensions', parameters('mgtVMName'), 'MGTBaselineDSC')]"
         ],
         "properties": {
             "mode": "Incremental",
