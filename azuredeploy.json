@@ -483,6 +483,31 @@
                     "Name": "[variables('resourceNames').vms.adbdc]"
                 }
             ]
+        },
+        "vmNames": {
+            "VMs": [
+                {
+                    "Name": "AZ-PDC-VM"
+                },
+                {
+                    "Name": "AZ-BDC-VM"
+                },
+                {
+                    "Name": "AZ-WEB-VM0"
+                },
+                {
+                    "Name": "AZ-WEB-VM1"
+                },
+                {
+                    "Name": "AZ-MGT-VM"
+                },
+                {
+                    "Name": "AZ-SQL-VM0"
+                },
+                {
+                    "Name": "AZ-SQL-VM1"
+                }
+            ]
         }
     },
     "resources": [
@@ -1802,6 +1827,34 @@
                         "Value": "[variables('derivedIds').sqlSubnet]"
                     }
                }
+            }
+        },
+        {
+            "name": "[concat('BackupVM-',variables('vmNames').VMs[copyIndex()].Name)]",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2015-01-01",
+            "copy": {
+                "name": "backupVMLoop",
+                "count": "[length(variables('vmNames').VMs)]"
+            },
+            "dependsOn": [
+                "ConfigurationVMEncryption-AZ-PDC-VM",
+                "ConfigurationVMEncryption-AZ-BDC-VM"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[parameters('backupInfo').backupTemplateUrl]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "backupInfo": {
+                        "value": "[parameters('backupInfo')]"
+                    },
+                    "vmName": {
+                        "value": "[variables('vmNames').VMs[copyIndex()].Name]"
+                    }
+                }
             }
         }     
     ]
