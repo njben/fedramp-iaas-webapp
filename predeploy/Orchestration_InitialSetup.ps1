@@ -344,7 +344,7 @@ function orchestration {
 
 		$certPassword = New-AlphaNumericPassword
 		$secureCertPassword = ConvertTo-SecureString $certPassword -AsPlainText -Force
-		Generate-Cert -certPassword $secureCertPassword -domain $domain
+		Generate-Cert -certPassword $secureCertPassword -domain $domainused
 		$certificate = Get-Content -Path ".\cert.txt" | Out-String
 
         try {
@@ -419,7 +419,6 @@ try {
     Write-Host "`n DEFINE YOUR DOMAIN `n" -foregroundcolor green
     Write-Host "Please provide a domain name you would like to use with this deployment." -ForegroundColor Yellow
     $domainused = checkdomainname 
-
 
     #Set Resource Group and Azure SubscriptionID
     Write-Host "`n DEFINE YOUR AZURE RESOURCES `n" -foregroundcolor green
