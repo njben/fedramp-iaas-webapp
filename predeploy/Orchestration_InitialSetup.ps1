@@ -430,7 +430,9 @@ try {
     $RGName = Read-Host "Resource Group Name"
 
     $KVName = "$RGNAME-KV"
-    Write-Host "`nYour keyvault resource will be named $KVName" -ForegroundColor Yellow
+	Write-Host "`nYour keyvault resource will be named:" -ForegroundColor Green
+	Write-Host "$KVName" -ForegroundColor Yellow
+	Write-Host "`n"
 
     #Orchestration
 	orchestration -adminUsername $adminUsername -adminPassword $passwords.'Admin Password' -resourceGroupName $RGName -keyVaultName $KVName -subscriptionId $AzureSubID -domain $domainused
