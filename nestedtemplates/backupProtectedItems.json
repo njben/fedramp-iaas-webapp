@@ -11,7 +11,7 @@
   },
   "variables": {
     "backupFabric": "Azure",
-    "v2VmType": "Microsoft.ClassicCompute/virtualMachines",
+    "v2VmType": "Microsoft.Compute/virtualMachines",
     "v2VmContainer": "iaasvmcontainer;iaasvmcontainerv2;",
     "v2VmContainerNamePrefix": "iaasvmcontainerv2;",
     "v2Vm": "vm;iaasvmcontainerv2;"
