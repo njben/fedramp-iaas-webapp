@@ -21,13 +21,6 @@
                 "description": "Name of the resource group that holds the key vault above"
             }
         },
-        "environmentPrefix": {
-            "type": "string",
-            "metadata": {
-                "description": "Prefix for environement (production or staging). You can change the allowed values based on your preference."
-            },
-            "defaultValue": ""
-        },
         "encryptionEnabled": {
             "type": "bool",
             "defaultValue": true
@@ -340,36 +333,36 @@
         "virtualNetworkNameWithSuffix": "[concat('autohav2VNET', uniqueString(resourceGroup().id))]",
         "resourceNames": {
             "gatewaySkuName": "WAF_Medium",
-            "omsWorkspace": "[substring(concat(uniqueString(resourceGroup().id), 'ws', parameters('environmentPrefix')), 5)]",
-            "automationAccount": "[substring(concat(uniqueString(resourceGroup().id), 'aa', parameters('environmentPrefix')), 5)]",
+            "omsWorkspace": "[substring(concat(uniqueString(resourceGroup().id), 'ws'), 5)]",
+            "automationAccount": "[substring(concat(uniqueString(resourceGroup().id), 'aa'), 5)]",
             "recoveryServicesVault": "AZ-RCV-01",
             "automationSchedule": "VM-Patching-Schedule",
             "virtualNetworkNameWithSuffix": "[concat('autohav2VNET', uniqueString(resourceGroup().id))]",
             "nsgs": {
-                "mgt": "[concat('MGTNSG', parameters('environmentPrefix'))]",
-                "dc": "[concat('DCNSG', parameters('environmentPrefix'))]",
-                "web": "[concat('WEBNSG', parameters('environmentPrefix'))]",
-                "sql": "[concat('SQLNSG', parameters('environmentPrefix'))]",
-                "lb": "[concat('LBNSG', parameters('environmentPrefix'))]"
+                "mgt": "[concat('MGTNSG')]",
+                "dc": "[concat('DCNSG')]",
+                "web": "[concat('WEBNSG')]",
+                "sql": "[concat('SQLNSG')]",
+                "lb": "[concat('LBNSG')]"
             },
             "storageAccounts": {
-                "dc": "[concat(uniqueString(resourceGroup().id), 'dc', parameters('environmentPrefix'))]",
-                "web": "[concat(uniqueString(resourceGroup().id), 'web', parameters('environmentPrefix'))]",
-                "mgt": "[concat(uniqueString(resourceGroup().id), 'mgt', parameters('environmentPrefix'))]"
+                "dc": "[concat(uniqueString(resourceGroup().id), 'dc')]",
+                "web": "[concat(uniqueString(resourceGroup().id), 'web')]",
+                "mgt": "[concat(uniqueString(resourceGroup().id), 'mgt')]"
             },
             "vms": {
-                "adpdc": "[concat('AZ-PDC-VM', parameters('environmentPrefix'))]",
-                "adbdc": "[concat('AZ-BDC-VM', parameters('environmentPrefix'))]",
-                "web": "[concat('AZ-WEB-VM', parameters('environmentPrefix'))]",
-                "mgt": "[concat('AZ-MGT-VM', parameters('environmentPrefix'))]",
-                "sql0" : "[concat('AZ-SQL-VM0', parameters('environmentPrefix'))]",
-                "sql1" : "[concat('AZ-SQL-VM1', parameters('environmentPrefix'))]"
+                "adpdc": "[concat('AZ-PDC-VM')]",
+                "adbdc": "[concat('AZ-BDC-VM')]",
+                "web": "[concat('AZ-WEB-VM')]",
+                "mgt": "[concat('AZ-MGT-VM')]",
+                "sql0" : "[concat('AZ-SQL-VM0')]",
+                "sql1" : "[concat('AZ-SQL-VM1')]"
             },
             "nics": {
-                "adpdc": "[concat('adPDC-nic', parameters('environmentPrefix'))]",
-                "adbdc": "[concat('adBDC-nic', parameters('environmentPrefix'))]",
-                "web": "[concat('WEB-nic', parameters('environmentPrefix'))]",
-                "mgt": "[concat('MGT-nic', parameters('environmentPrefix'))]"
+                "adpdc": "[concat('adPDC-nic')]",
+                "adbdc": "[concat('adBDC-nic')]",
+                "web": "[concat('WEB-nic')]",
+                "mgt": "[concat('MGT-nic')]"
             },
             "loadBalancers": {
                 "rdpLBFEName": "rdpLBFE",
@@ -377,8 +370,8 @@
                 "rdpLBName": "rdpLoadBalancer"
             },
             "availabilitySets": {
-                "ad": "[concat('adAvailabilitySet', parameters('environmentPrefix'))]",
-                "web": "[concat('webAvailabilitySet', parameters('environmentPrefix'))]"
+                "ad": "[concat('adAvailabilitySet')]",
+                "web": "[concat('webAvailabilitySet')]"
             },
             "publicIPs": {
                 "mgt": "mgtpublicip"
@@ -1122,9 +1115,6 @@
                       "secretName": "adminUsername"
                     }
                   },
-                  "environmentPrefix": {
-                      "value": "[parameters('environmentPrefix')]"
-                  },
                   "adminPassword": {
                       "reference": {
                           "keyVault": {
@@ -1844,12 +1834,12 @@
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri": "[parameters('backupInfo').backupTemplateUrl]",
+                    "uri": "[variables('artifacts').backupVMProtectedItem]",
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
                     "backupInfo": {
-                        "value": "[parameters('backupInfo')]"
+                        "value": "[variables('backupInfo')]"
                     },
                     "vmName": {
                         "value": "[variables('vmNames').VMs[copyIndex()].Name]"
