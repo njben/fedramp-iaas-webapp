@@ -39,9 +39,6 @@ Must be the Domain name to be created. Validation exists in the script to ensure
 Write-Host "`n `nAzure Security and Compliance Blueprint - FedRAMP Web Applications Automation - Pre-Deployment Script `n" -foregroundcolor green
 Write-Host "This script can be used for creating the necessary preliminary resources to deploy a multi-tier web application architecture with pre-configured security controls to help customers achieve compliance with FedRAMP requirements. See https://aka.ms/fedrampblueprint for more information. `n " -foregroundcolor yellow
 
-Write-Host "`n DEFINE YOUR DOMAIN `n" -foregroundcolor green
-
-
 ########################################################################################################################
 # LOGIN TO AZURE FUNCTION
 ########################################################################################################################
@@ -94,7 +91,7 @@ function checkKeyVaultName {
 # ADMIN USERNAME VALIDATION FUNCTION
 ########################################################################################################################
 function checkAdminUserName {
-    $username = Read-Host "Enter an admin username"
+    $username = Read-Host "Enter an Admin Username"
     if ($username.ToLower() -eq "admin") {
         Write-Host "Not a valid Admin username, please select another." -ForegroundColor Magenta  
         checkAdminUserName
@@ -107,25 +104,21 @@ function checkAdminUserName {
 # DOMAIN NAME VALIDATION FUNCTION
 ########################################################################################################################
 function CheckDomainName {  
-	[CmdletBinding()]
-	param(
-        [Parameter(Mandatory=$true)]
-	    [string]$domain
-    )
+    $domain = Read-Host "Domain Name"   
     if ($domain.length -gt "15") {
         Write-Host "Domain Name is too long. Must be less than 15 characters." -ForegroundColor Magenta 
         CheckDomainName
-        Return
+        return
     }
     if ($domain -notmatch "^[a-zA-Z0-9.-]*$") {
         Write-Host "Invalid character set utilized. Please verify domain name contains only alphanumeric, hyphens, and at least one period." -ForegroundColor Magenta 
         CheckDomainName
-        Return
+        return
     }
     if ($domain -notmatch "[.]") {
         Write-Host "Invalid Domain Name specified. Please verify domain name contains only alphanumeric, hyphens, and at least one period." -ForegroundColor Magenta  
         CheckDomainName
-        Return
+        return
     }
     Return $domain
 }
@@ -198,7 +191,7 @@ function checkPasswords {
         }
     } 
     else {
-        Write-Host "Password is not long enough - Passwords must be at least " + $passLength + " characters long." -ForegroundColor Magenta
+        Write-Host "Password is not long enough - Passwords must be at least $passLength characters long." -ForegroundColor Magenta
         checkPasswords -name $name
         return
     }
@@ -222,11 +215,6 @@ Function New-AlphaNumericPassword () {
         }
     return $RandomPassword
 }
-
-Write-Host "Please provide a domain name you would like to use with this deployment." -ForegroundColor Yellow
-$DomainName = Read-Host "Domain Name" 
-Write-Host "`n"
-$domainused = checkdomainname $domainname
 
 function Generate-Cert() {
 	[CmdletBinding()]
@@ -264,7 +252,7 @@ function orchestration {
 		[string]$adminUsername,
 		[Parameter(Mandatory=$true)]
 		[SecureString]$adminPassword,
-                [string]$domain = $domainused
+        [string]$domain
 	)
 
 	$errorActionPreference = 'stop'
@@ -421,12 +409,31 @@ try {
 	Write-Host "You will now be asked to create credentials for the administrator and sql service accounts. `n" -ForegroundColor Yellow
 	Write-Host "`n CREATE CREDENTIALS `n" -foregroundcolor green
     $adminUsername = checkAdminUserName
-	$passwordNames = @("adminPassword")
+	$passwordNames = @("Admin Password")
 	$passwords = New-Object -TypeName PSObject
 	for ($i=0;$i -lt $passwordNames.Length;$i++) {
 	   checkPasswords -name $passwordNames[$i]
 	}
-	orchestration -adminUsername $adminUsername -adminPassword $passwords.adminPassword
+
+    # Set Domain Name   
+    Write-Host "`n DEFINE YOUR DOMAIN `n" -foregroundcolor green
+    Write-Host "Please provide a domain name you would like to use with this deployment." -ForegroundColor Yellow
+    $domainused = checkdomainname 
+
+
+    #Set Resource Group and Azure SubscriptionID
+    Write-Host "`n DEFINE YOUR AZURE RESOURCES `n" -foregroundcolor green
+    Write-Host "Please provide the Azure Government SubscriptionID you would like to use with this deployment." -ForegroundColor Yellow
+    $AzureSubID = Read-Host "Azure Government Subscription ID"
+
+    Write-Host "`nPlease create a name for the Resource Group you would like to use with this deployment." -ForegroundColor Yellow
+    $RGName = Read-Host "Resource Group Name"
+
+    $KVName = "$RGNAME-KV"
+    Write-Host "`nYour keyvault resource will be named $KVName" -ForegroundColor Yellow
+
+    #Orchestration
+	orchestration -adminUsername $adminUsername -adminPassword $passwords.'Admin Password' -resourceGroupName $RGName -keyVaultName $KVName -subscriptionId $AzureSubID -domain $domainused
     Write-Host "`n ORCHESTRATION COMPLETE `n" -foregroundcolor green
     Write-Host "Initial Pre-Deployment and Orchestration operations for this blueprint template are complete. Please proceed with finishing the deployment through the portal link in the Quickstart section at https://aka.ms/fedrampblueprint." -foregroundcolor Yellow
 }
