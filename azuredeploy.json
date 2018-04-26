@@ -1186,8 +1186,7 @@
             "comments": "Configures MGT VM with custom settings",
             "dependsOn": [
                 "Microsoft.Resources/deployments/ProvisionVirtualMachines",
-                "monitorVMLoopAD",
-                "ConfigureSQL"
+                "monitorVMLoopAD"
             ],
             "properties": {
                 "mode": "Incremental",
@@ -1550,7 +1549,7 @@
                   "ConfigureAutomationSchedules"
             ],
             "copy": {
-                "name": "encryptionSQLMGTLoop",
+                "name": "encryptionWEBLoop",
                 "count": "[variables('numberOfWebInstances')]"
             },
             "properties": {
@@ -1818,34 +1817,6 @@
                     }
                }
             }
-        },
-        {
-            "name": "[concat('BackupVM-',variables('vmNames').VMs[copyIndex()].Name)]",
-            "type": "Microsoft.Resources/deployments",
-            "apiVersion": "2015-01-01",
-            "copy": {
-                "name": "backupVMLoop",
-                "count": "[length(variables('vmNames').VMs)]"
-            },
-            "dependsOn": [
-                "ConfigurationVMEncryption-AZ-PDC-VM",
-                "ConfigurationVMEncryption-AZ-BDC-VM"
-            ],
-            "properties": {
-                "mode": "Incremental",
-                "templateLink": {
-                    "uri": "[variables('artifacts').backupVMProtectedItem]",
-                    "contentVersion": "1.0.0.0"
-                },
-                "parameters": {
-                    "backupInfo": {
-                        "value": "[variables('backupInfo')]"
-                    },
-                    "vmName": {
-                        "value": "[variables('vmNames').VMs[copyIndex()].Name]"
-                    }
-                }
-            }
-        }     
+        }
     ]
 }
