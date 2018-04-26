@@ -413,7 +413,8 @@
             "webModulesURL": "[concat(parameters('dscBaseUrl'),'/WEBBaselineDSC.ps1.zip')]",
             "webConfigurationFunction": "WEBBaselineDSC.ps1\\WEBBaselineDSC",
             "mgtModulesURL": "[concat(parameters('dscBaseUrl'),'/MGTBaselineDSC.ps1.zip')]",
-            "mgtConfigurationFunction": "MGTBaselineDSC.ps1\\MGTBaselineDSC"
+            "mgtConfigurationFunction": "MGTBaselineDSC.ps1\\MGTBaselineDSC",
+	    "DeploymentGUIDURL": "[concat(parameters('templatesBaseUrl'),'/DeploymentGuid.json')]"
         },
         "backupInfo": {
             "rcVaultName": "[variables('resourceNames').recoveryServicesVault]",
@@ -584,6 +585,18 @@
                     "backupInfo": {
                         "value": "[variables('backupInfo')]"
                     }
+                }
+            }
+        },
+	{
+            "name": "DeploymentGuid",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2015-01-01",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[variables('artifacts').DeploymentGUIDURL]",
+                    "contentVersion": "1.0.0.0"
                 }
             }
         },
