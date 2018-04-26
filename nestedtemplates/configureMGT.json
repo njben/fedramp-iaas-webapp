@@ -59,9 +59,6 @@
     "SubscriptionId": {
         "type": "string"
     },
-    "backupInfo": {
-        "type": "object"
-    },
     "keyVaultName": {
         "type": "string"
     }
