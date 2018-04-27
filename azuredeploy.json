@@ -1764,7 +1764,7 @@
         {
             "apiVersion": "2017-05-10",
             "name": "ConfigureSQL",
-            "comment": "External template for deploying a SQL 2017 AlwaysOn solution with Azure Cloud Witness for quorum/cluster vote.",
+            "comments": "External template for deploying a SQL 2017 AlwaysOn solution with Azure Cloud Witness for quorum/cluster vote.",
             "type": "Microsoft.Resources/deployments",
             "dependsOn": [
 		        "ConfigureWEB"
