@@ -56,9 +56,9 @@ The pre-deployment PowerShell script will verify that the necessary Azure PowerS
 
 1. Clone or download this GitHub repository to your local workstation.
 `git clone https://github.com/Azure/fedramp-iaas-webapp.git`
-2. Start PowerShell as an administrator.
-3. Run Orchestration_InitialSetup.ps1.
-4. Enter the parameters above when prompted.
+2. Start PowerShell with administrative privileges.
+3. Run **Orchestration_InitialSetup.ps1**, found in the predeploy directory.
+4. When prompted, enter the parameters described above.
 
 Note the resource group name, Key Vault name, and domain name used as these will be required during the deployment phase.
 
@@ -66,16 +66,17 @@ Note the resource group name, Key Vault name, and domain name used as these will
 
 During this phase, an Azure Resource Manager (ARM) template will deploy Azure resources to your subscription and perform configuration activities.
 
-After clicking the Deploy to Azure Gov button, the Azure portal will open and prompt you for the following settings:
+After clicking the **Deploy to Azure Gov** button, the Azure portal will open and prompt you for the following settings:
 
 **Basics**
-* **Subscription**: Choose the same subscription used during the pre-deployment phase
-* **Resource group**: Select 'Use existing' and choose the resource group created during pre-deployment
-* **Location**: Select 'USGovVirginia' ***Note: This solution must be deployed in the USGovVirginia region due to service availability.***
+* **Subscription**: Choose the same subscription used during the pre-deployment phase.
+* **Resource group**: Select **Use existing** and choose the resource group created during pre-deployment.
+* **Location**: Verify **USGovVirginia** is selected for you.  
+	***Note: This solution must be deployed in the USGovVirginia region due to service availability.***
 
 **Settings**
-* **Key Vault Name**: Name of the Key Vault created during pre-deployment
-* **Key Vault Resource Group Name**: Name of the resource group created during pre-deployment
+* **Key Vault Name**: Name of the Key Vault created during pre-deployment.
+* **Key Vault Resource Group Name**: Name of the resource group created during pre-deployment.
 
 All other settings contain default values that may be optionally adjusted by the user.
 
@@ -84,24 +85,28 @@ All other settings contain default values that may be optionally adjusted by the
 1. Click the button below.
 
 	[![Deploy to Azure](http://azuredeploy.net/AzureGov.png)](https://portal.azure.us/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmik-e-kim%2Ffedramp-iaas-webapp%2FSQL2017%2Fazuredeploy.json)
-2. Enter the settings above.
+2. Enter the settings described above.
 3. Review the terms and conditions and click **I agree to the terms and conditions stated above**.
 4. Click **Purchase**.
 
 #### Monitoring deployment status
-This solution uses multiple nested templates to deploy and configure the resources shown in the architecture diagram. The full deployment will take approximately 120 minutes. You can monitor the deployment from Azure Portal. When complete, there will be 49 items deployed to the resource group. If you encounter deployment errors, check the [troubleshooting](#troubleshooting) section below.
-
-See [TIMELINE.md](/docs/TIMELINE.md) for a resource dependency outline.
+This solution uses multiple nested templates to deploy and configure the resources shown in the architecture diagram. The full deployment will take approximately 120 minutes. You can monitor the deployment from Azure Portal. When complete, there will be 34 items deployed to the resource group. If you encounter deployment errors, check the [troubleshooting](#troubleshooting) section below.
 
 ### POST-DEPLOYMENT
 
-#### Accessing deployed resources
+#### Accessing Deployed Resources
 
-You can access your machines through the MGT VM that is created from the deployment. From this VM, you can remote into and access any of the VMs in the network.
+You can access your machines through the MGT VM that is created from the deployment. From this VM, you can remotely access any of the VMs in the network. The default name of the VM is **AZ-MGT-VM**.
+
+#### Initial Backup
+
+After successful deployment of this blueprint, you can opt to run the **PostDeployment.ps1** script found in the **/postdeploy** directory for initializing encrypted VM backups into the Azure Recovery Services Vault deployed with the blueprint solution. 
+
+Initial backup can be run immediately after the deployment finishes successfully. Alternatively, you can select to run initial backup after configuring your environment for your application. 
 
 #### Cost
 
-Deploying this solution will create resources within your Azure subscription. You will be responsible for the costs associated with these resources, so it is important that you review the applicable pricing and legal terms associated with all the resources and offerings deployed as part of this solution. For cost estimates, you can use the Azure Pricing Calculator.
+Deploying this solution will create resources within your Azure subscription. You will be responsible for the costs associated with these resources, so it is important that you review the applicable pricing and legal terms associated with all the resources and offerings deployed as part of this solution. For cost estimates, you can use the [Azure Pricing Calculator](https://azure.microsoft.com/en-us/pricing/calculator/).
 
 #### Extending the Solution with Advanced Configuration
 
@@ -110,13 +115,13 @@ If you have a basic knowledge of how Azure Resource Manager (ARM) templates work
 - OMS alert rules and configuration (nestedtemplates/provisioningAutoAccOMSWorkspace)
 - Application Gateway routing rules (nestedtemplates/provisioningApplicationGateway.json)
 
-Additional documentaiton about template deployment is available at the following links:
+Additional documentation regarding template deployment is available at the following links:
 
 - [Azure Resource Manager Templates](https://docs.microsoft.com/azure/azure-resource-manager/resource-group-overview#template-deployment)
 - [ARM Template Functions](https://docs.microsoft.com/azure/azure-resource-manager/resource-group-template-functions)
 - [ARM Templating and Nesting Resources](https://docs.microsoft.com/azure/azure-resource-manager/resource-group-linked-templates)
 
-If you do not want to specifically alter the template contents, you can edit the parameters section at the top level of the JSON object within azuredeploy.json.
+If you do not want to specifically alter the template contents, you can edit the parameters section at the top level of the JSON object within azuredeploy.json.  
 
 #### Troubleshooting
 
@@ -130,12 +135,12 @@ To help with deleting protected resources, use custom-scripts/deleteProtectedIte
 
 ## Disclaimer
 
-- This document is for informational purposes only. MICROSOFT MAKES NO WARRANTIES, EXPRESS, IMPLIED, OR STATUTORY, AS TO THE INFORMATION IN THIS DOCUMENT. This document is provided "as-is." Information and views expressed in this document, including URL and other Internet website references, may change without notice. Customers reading this document bear the risk of using it.  
-- This document does not provide customers with any legal rights to any intellectual property in any Microsoft product or solutions.  
+- This document is for informational purposes only. Microsoft makes no warranties expressed, implied, or statutory, as to the information in this document. This document is provided "as-is." Information and views expressed in this document, including URL and other internet website references, may change without notice. Customers reading this document bear the risk of using it.  
+- This document does not provide customers with any legal rights to any intellectual property in any Microsoft products or solutions.  
 - Customers may copy and use this document for internal reference purposes.  
-- Certain recommendations in this document may result in increased data, network, or compute resource usage in Azure, and may increase a customer's Azure license or subscription costs.  
+- Certain recommendations in this document may result in increased data, network, or compute resource usage in Azure, and may increase a customer's Azure license and/or subscription costs.  
 - This architecture is intended to serve as a foundation for customers to adjust to their specific requirements and should not be used as-is in a production environment.
-- This document is developed as a reference and should not be used to define all means by which a customer can meet specific compliance requirements and regulations. Customers should seek legal support from their organization on approved customer implementations.
+- This document is developed as a reference and should not be used to define all means by which a customer can meet specific compliance requirements and regulations. Customers should seek legal support from their organization on approved compliant customer implementations.
 
 ## Contributing
 
