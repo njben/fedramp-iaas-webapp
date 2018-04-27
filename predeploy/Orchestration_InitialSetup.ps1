@@ -234,7 +234,7 @@ function Generate-Cert() {
 }
 
 ########################################################################################################################
-# Create KeyVault or setup existing keyVault
+# Create Key Vault
 ########################################################################################################################
 Write-Host "`n LOGIN TO AZURE `n" -foregroundcolor green
 
@@ -306,7 +306,7 @@ function orchestration {
 			$aadClientID = $SvcPrincipals[0].ApplicationId;
 		}
 
-	# Create KeyVault or setup existing keyVault
+	# Create Key Vault
 	Write-Host "Creating resource group '$($resourceGroupName)' to hold key vault." -ForegroundColor Yellow
 	if (-not (Get-AzureRmResourceGroup -Name $resourceGroupName -Location $location -ErrorAction SilentlyContinue)) {
 		New-AzureRmResourceGroup -Name $resourceGroupName -Location $location  | Out-String | Write-Verbose
@@ -429,7 +429,7 @@ try {
     $RGName = Read-Host "Resource Group Name"
 
     $KVName = "$RGNAME-KV"
-	Write-Host "`nYour keyvault resource will be named:" -ForegroundColor Green
+	Write-Host "`nYour Key Vault resource for this deployment will be named:" -ForegroundColor Green
 	Write-Host "$KVName" -ForegroundColor Yellow
 	Write-Host "`n"
 
