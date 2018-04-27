@@ -38,10 +38,10 @@ You may need to change your workstation's PowerShell execution policy for execut
 
 To clone this repository using the command line, you must install a [Git client](https://git-scm.com/downloads) on your workstation. Alternatively, you can download the repository directly from GitHub.
 
-#### SSL certificate
-This solution deploys an Application Gateway and requires an SSL certificate. The pre-deployment script will generate a self-signed SSL certificate after prompting for a domain (e.g., `contoso.local`). Note that self-signed certificates are not recommended for use in production environments.
+#### SSL Certificate
+This solution deploys an Application Gateway which requires an SSL certificate. The pre-deployment script will generate a self-signed SSL certificate after prompting for a domain (e.g., `contoso.local`). Note that self-signed certificates are not recommended for use in production environments.
 
-#### Pre-deployment script
+#### Pre-deployment Script
 
 The pre-deployment PowerShell script will verify that the necessary Azure PowerShell modules are installed. Azure PowerShell modules provide cmdlets for managing Azure resources. After all the setup requirements are verified, the script will ask you to sign into Azure and will then prompt for parameters and credentials to use when the solution is deployed. The script will prompt for the following parameters, in this order:
 
@@ -52,7 +52,7 @@ The pre-deployment PowerShell script will verify that the necessary Azure PowerS
 * **Resource Group Name**: The resource group name you want to use for this deployment; must be a string of 1-90 alphanumeric characters (such as 0-9, a-z, A-Z), periods, underscores, hyphens, and parenthesis and it cannot end in a period (e.g., `blueprint-rg`). 
 	* **Key Vault Name**: The Key Vault name will be automatically generated from the **Resource Group Name** parameter, as the deployment cannot use an existing Key Vault resource for this blueprint (e.g., `blueprint-rg-KV`). 
 
-#### Pre-deployment instructions
+#### Pre-deployment Instructions
 
 1. Clone or download this GitHub repository to your local workstation.
 `git clone https://github.com/Azure/fedramp-iaas-webapp.git`
@@ -80,7 +80,7 @@ After clicking the **Deploy to Azure Gov** button, the Azure portal will open an
 
 All other settings contain default values that may be optionally adjusted by the user.
 
-#### Deployment instructions
+#### Deployment Instructions
 
 1. Click the button below.
 
@@ -89,7 +89,7 @@ All other settings contain default values that may be optionally adjusted by the
 3. Review the terms and conditions and click **I agree to the terms and conditions stated above**.
 4. Click **Purchase**.
 
-#### Monitoring deployment status
+#### Monitoring Deployment Status
 This solution uses multiple nested templates to deploy and configure the resources shown in the architecture diagram. The full deployment will take approximately 120 minutes. You can monitor the deployment from Azure Portal. When complete, there will be 34 items deployed to the resource group. If you encounter deployment errors, check the [troubleshooting](#troubleshooting) section below.
 
 ### POST-DEPLOYMENT
@@ -134,7 +134,7 @@ There is a known bug when initializing backups for this solution. If Azure repor
 
 Be very mindful of edits made to the JSON templates, as that can affect the integrity of the blueprint deployment. Editing the templates is recommended only for users familiar with utilizing Azure Resource Manager APIs for Azure deployments.  
 
-#### How to delete deployed resources
+#### How to Delete Deployed Resources
 
 To help with deleting protected resources, use custom-scripts/deleteProtectedItems.ps1. This PowerShell script will remove any deletion locks on the resources inside your Recovery Services Vault. Note that you will first need to edit the script to include your subscription ID. The default Recovery Service Vault name of 'AZ-RCV-01' is already set in the script. 
 
