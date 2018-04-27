@@ -50,7 +50,7 @@ The pre-deployment PowerShell script will verify that the necessary Azure PowerS
 * **Domain Name**: Domain name for the self-signed SSL certificate. Domain names utilized for this blueprint must adhere to RFC 1123 and NetBIOS (e.g., `contoso.local`).
 * **Azure Government Subscription ID**: To find your Azure Government subscription ID, navigate to https://portal.azure.us and sign in. Expand the service menu on the left side of the portal, select "more services," and begin typing "subscription" in the filter box. Click **Subscriptions** to open the subscriptions blade. Note the subscription ID, which has the GUID format: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx.
 * **Resource Group Name**: The resource group name you want to use for this deployment; must be a string of 1-90 alphanumeric characters (such as 0-9, a-z, A-Z), periods, underscores, hyphens, and parenthesis and it cannot end in a period (e.g., `blueprint-rg`). 
-* **Key Vault Name**: The Key Vault name will be automatically generated from the **Resource Group Name** parameter, as the deployment cannot use an existing Key Vault resource for this blueprint (e.g., `blueprint-rg-KV`). 
+	* **Key Vault Name**: The Key Vault name will be automatically generated from the **Resource Group Name** parameter, as the deployment cannot use an existing Key Vault resource for this blueprint (e.g., `blueprint-rg-KV`). 
 
 #### Pre-deployment instructions
 
