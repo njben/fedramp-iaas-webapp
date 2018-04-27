@@ -1555,11 +1555,12 @@
             }
         },
         {
-            "name": "[concat('ConfigurationVMEncryption-', variables('resourceNames').vms.web, copyindex())]",
+            "name": "[concat('ConfigureVMEncryption-', variables('resourceNames').vms.web, copyindex())]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2015-01-01",
             "dependsOn": [
-                  "ConfigureAutomationSchedules"
+                  "ConfigureAutomationSchedules",
+		  "ConfigureWEB"
             ],
             "copy": {
                 "name": "encryptionWEBLoop",
@@ -1624,11 +1625,12 @@
             }
         },
         {
-            "name": "[concat('ConfigurationVMEncryption-', variables('vmNamesArrayAD').VMs[copyIndex()].Name)]",
+            "name": "[concat('ConfigureVMEncryption-', variables('vmNamesArrayAD').VMs[copyIndex()].Name)]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2015-01-01",
             "dependsOn": [
-                "ConfigureAutomationSchedules"
+                "ConfigureAutomationSchedules",
+		"[concat('ConfigurationVMEncryption-', variables('resourceNames').vms.web, copyindex())]"
             ],
             "copy": {
                 "name": "encryptionADLoop",
@@ -1693,11 +1695,12 @@
             }
         },
         {
-            "name": "[concat('ConfigurationVMEncryption-', variables('vmNamesArraySQLMGT').VMs[copyIndex()].Name)]",
+            "name": "[concat('ConfigureVMEncryption-', variables('vmNamesArraySQLMGT').VMs[copyIndex()].Name)]",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2015-01-01",
             "dependsOn": [
-                "ConfigureAutomationSchedules"
+                "ConfigureAutomationSchedules",
+		"ConfigureSQL"
             ],
             "copy": {
                 "name": "encryptionSQLMGTLoop",
@@ -1767,7 +1770,6 @@
             "comments": "External template for deploying a SQL 2017 AlwaysOn solution with Azure Cloud Witness for quorum/cluster vote.",
             "type": "Microsoft.Resources/deployments",
             "dependsOn": [
-		        "ConfigureWEB"
             ],
             "properties": {
               "mode": "incremental",
