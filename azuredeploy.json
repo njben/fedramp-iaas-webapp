@@ -348,11 +348,11 @@
             "automationSchedule": "VM-Patching-Schedule",
             "virtualNetworkNameWithSuffix": "[concat('autohav2VNET', uniqueString(resourceGroup().id))]",
             "nsgs": {
-                "mgt": "[concat('MGTNSG')]",
-                "dc": "[concat('DCNSG')]",
-                "web": "[concat('WEBNSG')]",
-                "sql": "[concat('SQLNSG')]",
-                "lb": "[concat('LBNSG')]"
+                "mgt": "MGTNSG",
+                "dc": "DCNSG",
+                "web": "WEBNSG",
+                "sql": "SQLNSG",
+                "lb": "LBNSG"
             },
             "storageAccounts": {
                 "dc": "[concat(uniqueString(resourceGroup().id), 'dc')]",
@@ -360,18 +360,18 @@
                 "mgt": "[concat(uniqueString(resourceGroup().id), 'mgt')]"
             },
             "vms": {
-                "adpdc": "[concat('AZ-PDC-VM')]",
-                "adbdc": "[concat('AZ-BDC-VM')]",
-                "web": "[concat('AZ-WEB-VM')]",
-                "mgt": "[concat('AZ-MGT-VM')]",
-                "sql0" : "[concat('AZ-SQL-VM0')]",
-                "sql1" : "[concat('AZ-SQL-VM1')]"
+                "adpdc": "AZ-PDC-VM",
+                "adbdc": "AZ-BDC-VM",
+                "web": "AZ-WEB-VM",
+                "mgt": "AZ-MGT-VM",
+                "sql0" : "AZ-SQL-VM0",
+                "sql1" : "AZ-SQL-VM1"
             },
             "nics": {
-                "adpdc": "[concat('adPDC-nic')]",
-                "adbdc": "[concat('adBDC-nic')]",
-                "web": "[concat('WEB-nic')]",
-                "mgt": "[concat('MGT-nic')]"
+                "adpdc": "adPDC-nic",
+                "adbdc": "adBDC-nic",
+                "web": "WEB-nic",
+                "mgt": "MGT-nic"
             },
             "loadBalancers": {
                 "rdpLBFEName": "rdpLBFE",
@@ -587,20 +587,20 @@
                 }
             }
         },
-	{
-	   "apiVersion": "2017-05-10",
-	   "name": "pid-1dd2b3cb-a191-44e3-82c0-9aec7457f754",
-	   "comments": "GUID for tracking deployments intended for production use."
-	   "type": "Microsoft.Resources/deployments",
-	   "properties": {
-	   	"mode": "Incremental",
-	   	"template": {
-	        	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-	                "contentVersion": "1.0.0.0",
-	                "resources": []
-	        }
-	    }
-	},
+        {
+        "apiVersion": "2017-05-10",
+        "name": "pid-1dd2b3cb-a191-44e3-82c0-9aec7457f754",
+        "comments": "GUID for tracking deployments intended for production use.",
+        "type": "Microsoft.Resources/deployments",
+        "properties": {
+            "mode": "Incremental",
+            "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                        "contentVersion": "1.0.0.0",
+                        "resources": []
+                }
+            }
+        },
         {
             "name": "ProvisionVirtualNetworkNSG",
             "comments": "Creates Network Secuity Groups and a Virtual Network",
@@ -655,7 +655,7 @@
             "apiVersion": "2015-01-01",
             "comments": "Creates storage accounts for the assets in the Active Directory, MGT, and WEB tiers.",
             "dependsOn": [
-		  "Microsoft.Resources/deployments/ProvisionAutomationAccountAndOMSWorkspace"
+		        "Microsoft.Resources/deployments/ProvisionAutomationAccountAndOMSWorkspace"
             ],
             "properties": {
                 "mode": "Incremental",
@@ -727,7 +727,7 @@
                     "uri": "[variables('artifacts').provisionAndConfigureADUrl]",
                     "contentVersion": "1.0.0.0"
                 },
-              "parameters": {
+            "parameters": {
                 "adPDCVMName": {
                   "value": "[variables('resourceNames').vms.adpdc]"
                 },
@@ -919,7 +919,7 @@
         },
         {
             "name": "ProvisionNICs",
-            "comments": "Creates Network Interfaces for all VMs",
+            "comments": "Creates Network Interfaces for all VMs in the AD, WEB, and MGT tiers.",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2015-01-01",
             "dependsOn": [
@@ -1524,7 +1524,8 @@
             "apiVersion": "2015-01-01",
             "dependsOn": [
                 "monitorVMLoopSQLAD",
-                "monitorVMLoopWEB"
+                "monitorVMLoopWEB",
+                "ConfigureSQL"
             ],
             "properties": {
                 "mode": "Incremental",
@@ -1627,11 +1628,10 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2015-01-01",
             "dependsOn": [
-                "ConfigureAutomationSchedules",
-		        "[concat('ConfigurationVMEncryption-', variables('resourceNames').vms.web, copyindex())]"
+                "ConfigureAutomationSchedules"
             ],
             "copy": {
-                "name": "encryptionSQLMGTLoop",
+                "name": "encryptionADLoop",
                 "count": "[length(variables('vmNamesArrayAD').VMs)]"
             },
             "properties": {
@@ -1697,8 +1697,7 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2015-01-01",
             "dependsOn": [
-                "ConfigureAutomationSchedules",
-                "ConfigureSQL"
+                "ConfigureAutomationSchedules"
             ],
             "copy": {
                 "name": "encryptionSQLMGTLoop",
@@ -1765,6 +1764,7 @@
         {
             "apiVersion": "2017-05-10",
             "name": "ConfigureSQL",
+            "comment": "External template for deploying a SQL 2017 AlwaysOn solution with Azure Cloud Witness for quorum/cluster vote.",
             "type": "Microsoft.Resources/deployments",
             "dependsOn": [
 		        "ConfigureWEB"
