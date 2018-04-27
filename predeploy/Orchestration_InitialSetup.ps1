@@ -131,7 +131,7 @@ function checkPasswords {
 		[Parameter(Mandatory=$true)]
 		[string]$name
 	)
-	$password = Read-Host -assecurestring "Enter $($name)"
+	$password = Read-Host -assecurestring "Enter an $($name)"
     $Ptr = [System.Runtime.InteropServices.Marshal]::SecureStringToCoTaskMemUnicode($password)
     $pw2test = [System.Runtime.InteropServices.Marshal]::PtrToStringUni($Ptr)
     [System.Runtime.InteropServices.Marshal]::ZeroFreeCoTaskMemUnicode($Ptr)
