@@ -413,8 +413,7 @@
             "webModulesURL": "[concat(parameters('dscBaseUrl'),'/WEBBaselineDSC.ps1.zip')]",
             "webConfigurationFunction": "WEBBaselineDSC.ps1\\WEBBaselineDSC",
             "mgtModulesURL": "[concat(parameters('dscBaseUrl'),'/MGTBaselineDSC.ps1.zip')]",
-            "mgtConfigurationFunction": "MGTBaselineDSC.ps1\\MGTBaselineDSC",
-	    "DeploymentGUIDURL": "[concat(parameters('templatesBaseUrl'),'/DeploymentGuid.json')]"
+            "mgtConfigurationFunction": "MGTBaselineDSC.ps1\\MGTBaselineDSC"
         },
         "backupInfo": {
             "rcVaultName": "[variables('resourceNames').recoveryServicesVault]",
@@ -589,17 +588,19 @@
             }
         },
 	{
-            "name": "DeploymentGuid",
-            "type": "Microsoft.Resources/deployments",
-            "apiVersion": "2015-01-01",
-            "properties": {
-                "mode": "Incremental",
-                "templateLink": {
-                    "uri": "[variables('artifacts').DeploymentGUIDURL]",
-                    "contentVersion": "1.0.0.0"
-                }
-            }
-        },
+	   "apiVersion": "2017-05-10",
+	   "name": "pid-1dd2b3cb-a191-44e3-82c0-9aec7457f754",
+	   "comments": "GUID for tracking deployments intended for production use."
+	   "type": "Microsoft.Resources/deployments",
+	   "properties": {
+	   	"mode": "Incremental",
+	   	"template": {
+	        	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	                "contentVersion": "1.0.0.0",
+	                "resources": []
+	        }
+	    }
+	},
         {
             "name": "ProvisionVirtualNetworkNSG",
             "comments": "Creates Network Secuity Groups and a Virtual Network",
