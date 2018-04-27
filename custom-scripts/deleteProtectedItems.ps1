@@ -4,7 +4,7 @@
 Import-Module AzureRm
 Add-AzureRmAccount -EnvironmentName AzureUSGovernment
 
-
+## Enter your Azure Subscription ID
 Select-AzureRmSubscription -SubscriptionId "<enter your azure subscription here>"
 
 ## AZ-RCV-01 is the default name of the Recovery Services Vault deployed. 
