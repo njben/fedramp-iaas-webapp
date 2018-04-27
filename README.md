@@ -136,7 +136,7 @@ Be very mindful of edits made to the JSON templates, as that can affect the inte
 
 #### How to delete deployed resources
 
-To help with deleting protected resources, use custom-scripts/deleteProtectedItems.ps1 -- this PowerShell script will removing the delete lock on the resources inside your Recovery Services vault. Note, you will first need to edit the script to include your subscription ID. The default Recovery Service Vault name of 'AZ-RCV-01' is already set in the script. 
+To help with deleting protected resources, use custom-scripts/deleteProtectedItems.ps1. This PowerShell script will remove any deletion locks on the resources inside your Recovery Services vault. Note that you will first need to edit the script to include your subscription ID. The default Recovery Service Vault name of 'AZ-RCV-01' is already set in the script. 
 
 ## Disclaimer
 
