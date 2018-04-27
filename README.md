@@ -114,6 +114,7 @@ If you have a basic knowledge of how Azure Resource Manager (ARM) templates work
 - Network Security Group rules (nestedtemplates/virtualNetworkNSG.json)
 - OMS alert rules and configuration (nestedtemplates/provisioningAutoAccOMSWorkspace)
 - Application Gateway routing rules (nestedtemplates/provisioningApplicationGateway.json)
+- Adding a DB to the SQL Server 2017 AlwaysOn Availability Group (externaltemplates/AddDBtoAG.json)
 
 Additional documentation regarding template deployment is available at the following links:
 
@@ -129,9 +130,13 @@ If your deployment should fail, first attempt to re-deploy the solution. Open th
 
 Please feel free to open and submit a GitHub issue pertaining to the error you are experiencing.
 
+There is a known bug when initializing backups for this solution. If Azure reports a missing 'Microsoft Visual C++ Redistributable' for any VM, attempt to initiate backup through the Azure portal.   
+
+Be very mindful of edits made to the JSON templates, as that can affect the integrity of the blueprint deployment. Editing the templates is recommended only for users familiar with utilizing Azure Resource Manager APIs for Azure deployments.  
+
 #### How to delete deployed resources
 
-To help with deleting protected resources, use custom-scripts/deleteProtectedItems.ps1 -- this PowerShell script will removing the delete lock on the resources inside your Recovery Services vault. Note, you will first need to edit the script to include your subscription ID and Recovery Service vault name.
+To help with deleting protected resources, use custom-scripts/deleteProtectedItems.ps1 -- this PowerShell script will removing the delete lock on the resources inside your Recovery Services vault. Note, you will first need to edit the script to include your subscription ID. The default Recovery Service Vault name of 'AZ-RCV-01' is already set in the script. 
 
 ## Disclaimer
 
