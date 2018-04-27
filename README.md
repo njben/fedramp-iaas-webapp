@@ -16,7 +16,7 @@ This Azure Blueprint solution is comprised of JSON configuration files and Power
 
 	[![Deploy to Azure](http://azuredeploy.net/AzureGov.png)](https://portal.azure.us/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmik-e-kim%2Ffedramp-iaas-webapp%2FSQL2017%2Fazuredeploy.json)
 	
-4. When the deployment completes, there is a post-deployment script in the repository for registering and initiating initial backup. This step can be completed before or after configuring the VM environment for your solution.
+4. When the deployment completes, there is a post-deployment script in the repository for registering and initiating initial backup. This step can be completed before or after configuring the VM environment for your application.
 
 ### PRE-DEPLOYMENT
 
