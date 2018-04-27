@@ -10,7 +10,7 @@ This Azure Blueprint solution is comprised of JSON configuration files and Power
 #### Quickstart
 1. Clone or download this repository to your local workstation.
 
-2. Run the pre-deployment PowerShell script: /predeploy/Orchestration_InitialSetup.ps1. [Read more about pre-deployment.](#pre-deployment)
+2. Run the pre-deployment PowerShell script: **/predeploy/Orchestration_InitialSetup.ps1** [Read more about pre-deployment.](#pre-deployment)
 
 3. Click the button below, sign into the Azure portal, enter the required ARM template parameters, and click **Purchase**. [Read more about deployment.](#deployment)
 
