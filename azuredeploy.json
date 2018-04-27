@@ -1770,6 +1770,7 @@
             "comments": "External template for deploying a SQL 2017 AlwaysOn solution with Azure Cloud Witness for quorum/cluster vote.",
             "type": "Microsoft.Resources/deployments",
             "dependsOn": [
+		"ConfigureWEB"    
             ],
             "properties": {
               "mode": "incremental",
